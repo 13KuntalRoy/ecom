@@ -18,8 +18,11 @@ const uploadRouter = require("./routes/uploadRoute");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const cors = require("cors");
-
+const swaggerUi = require('swagger-ui-express');
+const specs = require('./config/swagger');
 dbConnect();
+// Serve Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use(morgan("dev"));
 app.use(cors());
 app.use(bodyParser.json());
