@@ -28,6 +28,6 @@ const isAdmin = asyncHandler(async (req, res, next) => {
   } else {
     next();
   }
-next()
+  next()
 });
 module.exports = { authMiddleware, isAdmin };
