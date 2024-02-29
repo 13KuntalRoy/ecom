@@ -298,9 +298,9 @@ const Home = () => {
         </div>
         <div className="row">
           {productState &&
-            productState?.map((product, index) => {
-              if (index < 4) {
-                return <ProductCard key={product._id} data={[product]} />;
+            productState?.map((item, index) => {
+              if (item.tags === "popular") {
+                return <ProductCard key={item._id} data={[item]} />;
               }
             })}
         </div>
