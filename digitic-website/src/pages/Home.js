@@ -9,18 +9,25 @@ import { services } from "../utils//Data";
 import { useDispatch, useSelector } from 'react-redux';
 import moment from "moment";
 import { getAllBlogs } from "../features/blogs/blogSlice";
+import { getAllProducts } from "../features/products/productSlice";
 
 
 
 const Home = () => {
   const blogState = useSelector((state) => state?.blog?.blog);
+  const productState = useSelector((state) => state?.product?.product);
+  console.log(productState);
   const dispatch = useDispatch();
   useEffect(() => {
     getBlogs();
+    getProducts();
   }, []);
   const getBlogs = () => {
     dispatch(getAllBlogs());
-  }
+  };
+  const getProducts = () => {
+    dispatch(getAllProducts());
+  };
   return (
     <>
       <Container class1="home-wrapper-1 py-5">
@@ -190,10 +197,13 @@ const Home = () => {
           <div className="col-12">
             <h3 className="section-heading">Featured Collection</h3>
           </div>
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          {productState &&
+            productState?.map((product, index) => {
+              console.log(product.tags === "featured");
+              if (product.tags === "featured") {
+                return <ProductCard key={product._id} data={[product]} />;
+              }
+            })}
         </div>
       </Container>
 
@@ -269,10 +279,15 @@ const Home = () => {
           </div>
         </div>
         <div className="row">
-          <SpecialProduct />
-          <SpecialProduct />
-          <SpecialProduct />
-          <SpecialProduct />
+          {
+            Array.isArray(productState) && productState?.map((item, index) => {
+              if (item.tags === "special") {
+                return (
+                  <SpecialProduct key={item._id} product={item} />
+                )
+              }
+            })
+          }
         </div>
       </Container>
       <Container class1="popular-wrapper py-5 home-wrapper-2">
@@ -282,10 +297,12 @@ const Home = () => {
           </div>
         </div>
         <div className="row">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          {productState &&
+            productState?.map((product, index) => {
+              if (index < 4) {
+                return <ProductCard key={product._id} data={[product]} />;
+              }
+            })}
         </div>
       </Container>
       <Container class1="marque-wrapper home-wrapper-2 py-5">
